@@ -2,6 +2,7 @@ package com.interview.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,11 @@ public class GoodServiceImpl implements GoodService {
 		List<String> idList = Arrays.asList(ids.split(","));
 		count=goodDao.deleteByIds(idList);
 		return count;
+	}
+
+	public List<Map<String, Object>> getGoodCountInTypeList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

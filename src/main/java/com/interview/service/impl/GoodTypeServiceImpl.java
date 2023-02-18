@@ -48,4 +48,5 @@ public class GoodTypeServiceImpl implements GoodTypeService {
 		// TODO Auto-generated method stub
 		return goodTypeDao.getSelectList();
 	}
+
 }

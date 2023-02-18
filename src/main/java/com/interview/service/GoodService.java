@@ -1,6 +1,7 @@
 package com.interview.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.interview.entity.*;
 
@@ -15,5 +16,7 @@ public interface GoodService {
 	int edit(Good good);
 
 	int deleteByIds(String ids);
+
+	List<Map<String, Object>> getGoodCountInTypeList();
 
 }

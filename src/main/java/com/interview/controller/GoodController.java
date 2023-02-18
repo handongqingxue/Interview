@@ -127,4 +127,25 @@ public class GoodController {
 		
 		return jsonMap;
 	}
+
+	@RequestMapping(value="/getGoodCountList")
+	@ResponseBody
+	public Map<String, Object> getGoodCountList() {
+
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
+		//select gt.name,count(*) goodCount from good g,good_type gt where g.goodTypeId=gt.id GROUP BY g.goodTypeId
+		List<Map<String, Object>> gcList=goodService.getGoodCountInTypeList();
+		
+		if(gcList.size()>0) {
+			jsonMap.put("message", "ok");
+			jsonMap.put("gcList", gcList);
+		}
+		else {
+			jsonMap.put("message", "no");
+			jsonMap.put("info", "获取商品数量列表失败");
+		}
+		
+		return jsonMap;
+	}
 }

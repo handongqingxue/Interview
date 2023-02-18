@@ -14,10 +14,10 @@
 .addGoodType_div,.editGoodType_div,.addGood_div,.editGood_div{
 	display: none;
 }
-.getGoodTypeList_div,.getGoodList_div{
+.getGoodTypeList_div,.getGoodList_div,.getGoodCount_div{
 	margin-top: 10px;
 }
-.getGoodTypeList_div table,.getGoodList_div table{
+.getGoodTypeList_div table,.getGoodList_div table,.getGoodCount_div table{
 	width:100%;
 }
 </style>
@@ -28,6 +28,7 @@ $(function(){
 	initGoodTypeSelectData();
 	getGoodTypeList();
 	getGoodList();
+	getGoodCountList();
 });
 
 function addGoodType(){
@@ -432,6 +433,12 @@ function deleteGoodById(id){
 	类型:<input type="text" id="goodTypeName" placeholder="请输入商品类型"/>
 	<input type="button" value="查询" onclick="getGoodList()"/>
 	<input type="button" value="添加" onclick="showAddGoodDiv(true)"/>
+	<table>
+	</table>
+</div>
+
+<div id="getGoodCount_div" class="getGoodCount_div">
+	查询不同类型下的商品数量:
 	<table>
 	</table>
 </div>

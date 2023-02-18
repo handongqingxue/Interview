@@ -17,4 +17,5 @@ public interface GoodTypeService {
 	int deleteByIds(String ids);
 
 	List<GoodType> getSelectList();
+
 }
