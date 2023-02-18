@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.interview.dao.GoodTypeMapper">
+	<insert id="add" parameterType="com.interview.entity.GoodType">
+		insert into good_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null">
+				name,
+			</if>
+				createTime,
+			<if test="sort!=null">
+				sort,
+			</if>
+			<if test="memo!=null">
+				memo,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null">
+				#{name},
+			</if>
+				now(),
+			<if test="sort!=null">
+				#{sort},
+			</if>
+			<if test="memo!=null">
+				#{memo},
+			</if>
+		</trim>
+	</insert>
+	<select id="getList" resultType="com.interview.entity.GoodType">
+		select * from good_type where 1=1
+		<if test="name!=''&amp;name!=null">
+			and name like CONCAT('%',#{name},'%')
+		</if> 
+	</select>
+	<select id="getById" resultType="com.interview.entity.GoodType">
+		select * from good_type where id=#{id}
+	</select>
+	<update id="edit" parameterType="com.interview.entity.GoodType">
+		update good_type set 
+		<trim suffixOverrides=",">
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="sort!=null">
+				sort=#{sort},
+			</if>
+			<if test="memo!=null">
+				memo=#{memo},
+			</if>
+		</trim>
+		where id=#{id}
+	</update>
+</mapper>
