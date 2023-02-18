@@ -13,4 +13,8 @@ public interface GoodTypeService {
 	GoodType getById(Integer id);
 
 	int edit(GoodType gt);
+
+	int deleteByIds(String ids);
+
+	List<GoodType> getSelectList();
 }

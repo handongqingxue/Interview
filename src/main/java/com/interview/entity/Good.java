@@ -21,6 +21,12 @@ public class Good {
 	public void setGoodTypeId(Integer goodTypeId) {
 		this.goodTypeId = goodTypeId;
 	}
+	public String getGoodTypeName() {
+		return goodTypeName;
+	}
+	public void setGoodTypeName(String goodTypeName) {
+		this.goodTypeName = goodTypeName;
+	}
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -41,6 +47,7 @@ public class Good {
 	}
 	private String name;
     private Integer goodTypeId;
+    private String goodTypeName;
 	private String createTime;
     private Integer sort;
 	private String memo;

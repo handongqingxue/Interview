@@ -25,6 +25,7 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/goodType/**=anon
+				/good/**=anon
 				/resource/**=anon
 				/**=authc
 			</value>

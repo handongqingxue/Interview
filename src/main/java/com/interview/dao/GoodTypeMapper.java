@@ -15,4 +15,8 @@ public interface GoodTypeMapper {
 	GoodType getById(@Param("id") Integer id);
 
 	int edit(GoodType gt);
+
+	int deleteByIds(List<String> idList);
+
+	List<GoodType> getSelectList();
 }

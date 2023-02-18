@@ -2,12 +2,15 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.interview.dao.GoodTypeMapper">
-	<insert id="add" parameterType="com.interview.entity.GoodType">
-		insert into good_type
+<mapper namespace="com.interview.dao.GoodMapper">
+	<insert id="add" parameterType="com.interview.entity.Good">
+		insert into good
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="name!=null">
 				name,
+			</if>
+			<if test="goodTypeId!=null">
+				goodTypeId,
 			</if>
 				createTime,
 			<if test="sort!=null">
@@ -22,6 +25,9 @@
 			<if test="name!=null">
 				#{name},
 			</if>
+			<if test="goodTypeId!=null">
+				#{goodTypeId},
+			</if>
 				now(),
 			<if test="sort!=null">
 				#{sort},
@@ -31,20 +37,26 @@
 			</if>
 		</trim>
 	</insert>
-	<select id="getList" resultType="com.interview.entity.GoodType">
-		select * from good_type where 1=1
+	<select id="getList" resultType="com.interview.entity.Good">
+		select g.*,gt.name goodTypeName from good g,good_type gt where g.goodTypeId=gt.id
 		<if test="name!=''&amp;name!=null">
-			and name like CONCAT('%',#{name},'%')
+			and g.name like CONCAT('%',#{name},'%')
+		</if> 
+		<if test="goodTypeName!=''&amp;goodTypeName!=null">
+			and gt.name like CONCAT('%',#{goodTypeName},'%')
 		</if> 
 	</select>
-	<select id="getById" resultType="com.interview.entity.GoodType">
-		select * from good_type where id=#{id}
+	<select id="getById" resultType="com.interview.entity.Good">
+		select * from good where id=#{id}
 	</select>
-	<update id="edit" parameterType="com.interview.entity.GoodType">
-		update good_type set 
+	<update id="edit" parameterType="com.interview.entity.Good">
+		update good set 
 		<trim suffixOverrides=",">
 			<if test="name!=null">
 				name=#{name},
+			</if>
+			<if test="goodTypeId!=null">
+				goodTypeId=#{goodTypeId},
 			</if>
 			<if test="sort!=null">
 				sort=#{sort},
@@ -56,12 +68,9 @@
 		where id=#{id}
 	</update>
 	<delete id="deleteByIds">
-		delete from good_type where 1=1
+		delete from good where 1=1
 		<foreach collection="list" item="id" open=" and cast(id as char) in (" separator="," close=")">
 		#{id}
 		</foreach>
 	</delete>
-	<select id="getSelectList" resultType="com.interview.entity.GoodType">
-		select id,name from good_type order by sort
-	</select>
 </mapper>

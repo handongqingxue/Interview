@@ -55,4 +55,13 @@
 		</trim>
 		where id=#{id}
 	</update>
+	<delete id="deleteByIds">
+		delete from good_type where 1=1
+		<foreach collection="list" item="id" open=" and cast(id as char) in (" separator="," close=")">
+		#{id}
+		</foreach>
+	</delete>
+	<select id="getSelectList" resultType="com.interview.entity.GoodType">
+		select id,name from good_type order by sort
+	</select>
 </mapper>

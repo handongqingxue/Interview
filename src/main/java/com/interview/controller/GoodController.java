@@ -13,33 +13,27 @@ import com.interview.entity.*;
 import com.interview.service.*;
 
 @Controller
-@RequestMapping("/goodType")
-public class GoodTypeController {
-	
-	@Autowired
-	private GoodTypeService goodTypeService;
+@RequestMapping("/good")
+public class GoodController {
 
-	@RequestMapping(value="/goTest")
-	public String goTest() {
-		
-		return "/test";
-	}
+	@Autowired
+	private GoodService goodService;
 
 	@RequestMapping(value="/add")
 	@ResponseBody
-	public Map<String, Object> add(GoodType gt) {
+	public Map<String, Object> add(Good good) {
 		
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
 		try {
-			int count=goodTypeService.add(gt);
+			int count=goodService.add(good);
 			if(count>0) {
 				jsonMap.put("message", "ok");
-				jsonMap.put("info", "添加商品类型成功");
+				jsonMap.put("info", "添加商品成功");
 			}
 			else {
 				jsonMap.put("message", "no");
-				jsonMap.put("info", "添加商品类型失败");
+				jsonMap.put("info", "添加商品失败");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -50,40 +44,40 @@ public class GoodTypeController {
 		}
 	}
 
-	@RequestMapping(value="/deleteGoodType")
+	@RequestMapping(value="/deleteGood")
 	@ResponseBody
-	public Map<String, Object> deleteGoodType(String ids) {
+	public Map<String, Object> deleteGood(String ids) {
 		//TODO 针对分类的动态进行实时调整更新
 		
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		int count=goodTypeService.deleteByIds(ids);
+		int count=goodService.deleteByIds(ids);
 		if(count>0) {
 			jsonMap.put("message", "ok");
-			jsonMap.put("info", "删除商品类型成功");
+			jsonMap.put("info", "删除商品成功");
 		}
 		else {
 			jsonMap.put("message", "no");
-			jsonMap.put("info", "删除商品类型失败");
+			jsonMap.put("info", "删除商品失败");
 		}
 		return jsonMap;
 	}
 
 	@RequestMapping(value="/edit")
 	@ResponseBody
-	public Map<String, Object> edit(GoodType gt) {
+	public Map<String, Object> edit(Good good) {
 		
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
 		try {
-			int count=goodTypeService.edit(gt);
+			int count=goodService.edit(good);
 			if(count>0) {
 				jsonMap.put("message", "ok");
-				jsonMap.put("info", "编辑商品类型成功");
+				jsonMap.put("info", "编辑商品成功");
 			}
 			else {
 				jsonMap.put("message", "no");
-				jsonMap.put("info", "编辑商品类型失败");
+				jsonMap.put("info", "编辑商品失败");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -96,39 +90,19 @@ public class GoodTypeController {
 
 	@RequestMapping(value="/getList")
 	@ResponseBody
-	public Map<String, Object> getList(String name) {
+	public Map<String, Object> getList(String name, String goodTypeName) {
 
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		List<GoodType> gtList=goodTypeService.getList(name);
+		List<Good> goodList=goodService.getList(name,goodTypeName);
 		
-		if(gtList.size()>0) {
+		if(goodList.size()>0) {
 			jsonMap.put("message", "ok");
-			jsonMap.put("goodTypeList", gtList);
+			jsonMap.put("goodList", goodList);
 		}
 		else {
 			jsonMap.put("message", "no");
-			jsonMap.put("info", "获取商品类型列表失败");
-		}
-		
-		return jsonMap;
-	}
-
-	@RequestMapping(value="/getSelectList")
-	@ResponseBody
-	public Map<String, Object> getSelectList() {
-
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		
-		List<GoodType> list=goodTypeService.getSelectList();
-		
-		if(list.size()>0) {
-			jsonMap.put("message", "ok");
-			jsonMap.put("list", list);
-		}
-		else {
-			jsonMap.put("message", "no");
-			jsonMap.put("info", "获取商品类型下拉列表失败");
+			jsonMap.put("info", "获取商品列表失败");
 		}
 		
 		return jsonMap;
@@ -140,15 +114,15 @@ public class GoodTypeController {
 
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		GoodType goodType=goodTypeService.getById(id);
+		Good good=goodService.getById(id);
 		
-		if(goodType!=null) {
+		if(good!=null) {
 			jsonMap.put("message", "ok");
-			jsonMap.put("goodType", goodType);
+			jsonMap.put("good", good);
 		}
 		else {
 			jsonMap.put("message", "no");
-			jsonMap.put("info", "获取商品类型失败");
+			jsonMap.put("info", "获取商品失败");
 		}
 		
 		return jsonMap;

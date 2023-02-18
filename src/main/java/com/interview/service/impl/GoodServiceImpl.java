@@ -11,41 +11,37 @@ import com.interview.entity.*;
 import com.interview.service.*;
 
 @Service
-public class GoodTypeServiceImpl implements GoodTypeService {
-
+public class GoodServiceImpl implements GoodService {
+	
 	@Autowired
-	GoodTypeMapper goodTypeDao;
+	GoodMapper goodDao;
 
-	public int add(GoodType gt) {
+	public int add(Good good) {
 		// TODO Auto-generated method stub
-		return goodTypeDao.add(gt);
+		return goodDao.add(good);
 	}
 
-	public List<GoodType> getList(String name) {
+	public List<Good> getList(String name, String goodTypeName) {
 		// TODO Auto-generated method stub
-		return goodTypeDao.getList(name);
+		return goodDao.getList(name,goodTypeName);
 	}
 
-	public GoodType getById(Integer id) {
+	public Good getById(Integer id) {
 		// TODO Auto-generated method stub
-		return goodTypeDao.getById(id);
+		return goodDao.getById(id);
 	}
 
-	public int edit(GoodType gt) {
+	public int edit(Good good) {
 		// TODO Auto-generated method stub
-		return goodTypeDao.edit(gt);
+		return goodDao.edit(good);
 	}
 
 	public int deleteByIds(String ids) {
 		// TODO Auto-generated method stub
 		int count=0;
 		List<String> idList = Arrays.asList(ids.split(","));
-		count=goodTypeDao.deleteByIds(idList);
+		count=goodDao.deleteByIds(idList);
 		return count;
 	}
 
-	public List<GoodType> getSelectList() {
-		// TODO Auto-generated method stub
-		return goodTypeDao.getSelectList();
-	}
 }

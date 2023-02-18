@@ -11,13 +11,13 @@
 <script type="text/javascript"
 	src="<%=basePath %>resource/js/jquery-3.3.1.js"></script>
 <style type="text/css">
-.addGoodType_div,.editGoodType_div{
+.addGoodType_div,.editGoodType_div,.addGood_div,.editGood_div{
 	display: none;
 }
-.getGoodTypeList_div{
+.getGoodTypeList_div,.getGoodList_div{
 	margin-top: 10px;
 }
-.getGoodTypeList_div table{
+.getGoodTypeList_div table,.getGoodList_div table{
 	width:100%;
 }
 </style>
@@ -25,7 +25,9 @@
 <script type="text/javascript">
 var path='<%=basePath %>';
 $(function(){
-	
+	initGoodTypeSelectData();
+	getGoodTypeList();
+	getGoodList();
 });
 
 function addGoodType(){
@@ -145,7 +147,192 @@ function showEditGoodTypeDiv(flag,id){
 }
 
 function deleteGoodTypeById(id){
-	
+	$.post(path+"goodType/deleteGoodType",
+		{ids:id},
+		function(data){
+			if(data.message=="ok"){
+				alert(data.info);
+				getGoodTypeList();
+			}
+			else
+				alert(data.info);
+		}
+	,"json");
+}
+
+function initGoodTypeSelectData(){
+	$.post(path+"goodType/getSelectList",
+		function(data){
+			if(data.message=="ok"){
+				initAddGoodGoodTypeSelect(data.list);
+				initEditGoodGoodTypeSelect(data.list);
+			}
+			else
+				alert(data.info);
+		}
+	,"json");
+}
+
+function initAddGoodGoodTypeSelect(list){
+	var goodTypeSel=$("#addGood_div #goodType_sel");
+	for (var i = 0; i < list.length; i++) {
+		var goodType=list[i];
+		goodTypeSel.append("<option value=\""+goodType.id+"\">"+goodType.name+"</option>");
+	}
+}
+
+function initEditGoodGoodTypeSelect(list){
+	var goodTypeSel=$("#editGood_div #goodType_sel");
+	for (var i = 0; i < list.length; i++) {
+		var goodType=list[i];
+		goodTypeSel.append("<option value=\""+goodType.id+"\">"+goodType.name+"</option>");
+	}
+}
+
+function addGood(){
+	var name=$("#addGood_div #name").val();
+	var goodTypeId=$("#addGood_div #goodType_sel").val();
+	var sort=$("#addGood_div #sort").val();
+	var memo=$("#addGood_div #memo").val();
+	$.post(path+"good/add",
+		{name:name,goodTypeId:goodTypeId,sort:sort,memo:memo},
+		function(data){
+			if(data.message=="ok"){
+				showAddGoodDiv(false);
+				getGoodList();
+			}
+			else
+				alert(data.info);
+		}
+	,"json");
+}
+
+function editGood(){
+	var id=$("#editGood_div #id").val();
+	var name=$("#editGood_div #name").val();
+	var goodTypeId=$("#editGood_div #goodType_sel").val();
+	var sort=$("#editGood_div #sort").val();
+	var memo=$("#editGood_div #memo").val();
+	$.post(path+"good/edit",
+		{id:id,name:name,goodTypeId:goodTypeId,sort:sort,memo:memo},
+		function(data){
+			if(data.message=="ok"){
+				alert(data.info);
+				showEditGoodDiv(false);
+				getGoodList();
+			}
+			else
+				alert(data.info);
+		}
+	,"json");
+}
+
+function getGoodList(){
+	var name=$("#getGoodList_div #name").val();
+	var goodTypeName=$("#getGoodList_div #goodTypeName").val();
+	$.post(path+"good/getList",
+		{name:name,goodTypeName:goodTypeName},
+		function(data){
+			var ggListTab=$("#getGoodList_div table");
+			ggListTab.empty();
+			if(data.message=="ok"){
+				ggListTab.append("<tr>"
+							+"<td>名称</td>"
+							+"<td>类型</td>"
+							+"<td>创建时间</td>"
+							+"<td>排序</td>"
+							+"<td>备注</td>"
+							+"<td>操作</td>"
+						+"</tr>");
+			
+				var goodList=data.goodList;
+				var glLength=goodList.length;
+				for (var i = 0; i < glLength; i++) {
+					var good=goodList[i];
+					var id=good.id;
+					var name=good.name;
+					var goodTypeName=good.goodTypeName;
+					var createTime=good.createTime;
+					var sort=good.sort;
+					var memo=good.memo;
+					ggListTab.append("<tr>"
+								+"<td>"+name+"</td>"
+								+"<td>"+goodTypeName+"</td>"
+								+"<td>"+createTime+"</td>"
+								+"<td>"+sort+"</td>"
+								+"<td>"+memo+"</td>"
+								+"<td>"
+									+"<input type=\"button\" value=\"编辑\" onclick=\"showEditGoodDiv(true,"+id+")\"/>"
+									+"<input type=\"button\" value=\"删除\" onclick=\"deleteGoodById("+id+")\"/>"
+								+"</td>"
+							+"</tr>");
+				}
+			}
+		}
+	,"json");
+}
+
+function showAddGoodDiv(flag){
+	if(flag){
+		$("#addGood_div").css("display","block");
+	}
+	else{
+		$("#addGood_div").css("display","none");
+	}
+}
+
+function showEditGoodDiv(flag,id){
+	if(flag){
+		$.post(path+"good/getById",
+			{id:id},
+			function(data){
+				if(data.message=="ok"){
+					var good=data.good;
+					var name=good.name;
+					var goodTypeId=good.goodTypeId;
+					var sort=good.sort;
+					var memo=good.memo;
+					$("#editGood_div #id").val(id);
+					
+					var goodTypeSel=$("#editGood_div #goodType_sel");
+					var options=goodTypeSel.find("option");
+					for (var i = 0; i < options.length; i++) {
+						var option=options.eq(i);
+						if(option.val()==goodTypeId)
+							option.prop("selected",true);
+					}
+					
+					$("#editGood_div #name").val(name);
+					$("#editGood_div #sort").val(sort);
+					$("#editGood_div #memo").val(memo);
+				}
+				else
+					alert(data.info);
+			}
+		,"json");
+		$("#editGood_div").css("display","block");
+	}
+	else{
+		$("#editGood_div").css("display","none");
+		$("#editGood_div #id").val("");
+		$("#editGood_div #name").val("");
+		$("#editGood_div #sort").val("");
+		$("#editGood_div #memo").val("");
+	}
+}
+
+function deleteGoodById(id){
+	$.post(path+"good/deleteGood",
+		{ids:id},
+		function(data){
+			if(data.message=="ok"){
+				alert(data.info);
+				getGoodList();
+			}
+			else
+				alert(data.info);
+		}
+	,"json");
 }
 </script>
 </head>
@@ -169,7 +356,7 @@ function deleteGoodTypeById(id){
 
 <div id="editGoodType_div" class="editGoodType_div">
 	编辑商品类型:
-	<input type="text" id="id"/>
+	<input type="hidden" id="id"/>
 	<div>
 		类名:<input type="text" id="name"/>
 	</div>
@@ -190,6 +377,61 @@ function deleteGoodTypeById(id){
 	<input type="text" id="name" placeholder="请输入类型名称"/>
 	<input type="button" value="查询" onclick="getGoodTypeList()"/>
 	<input type="button" value="添加" onclick="showAddGoodTypeDiv(true)"/>
+	<table>
+	</table>
+</div>
+
+<div id="addGood_div" class="addGood_div">
+	添加商品:
+	<div>
+		名称:<input type="text" id="name"/>
+	</div>
+	<div>
+		类型:
+		<select id="goodType_sel">
+		</select>
+	</div>
+	<div>
+		排序:<input type="text" id="sort"/>
+	</div>
+	<div>
+		备注:<input type="text" id="memo"/>
+	</div>
+	<div>
+		<input type="button" value="提交" onclick="addGood()"/>
+		<input type="button" value="取消" onclick="showAddGoodDiv(false)"/>
+	</div>
+</div>
+
+<div id="editGood_div" class="editGood_div">
+	编辑商品:
+	<div>
+		<input type="hidden" id="id"/>
+		名称:<input type="text" id="name"/>
+	</div>
+	<div>
+		类型:
+		<select id="goodType_sel">
+		</select>
+	</div>
+	<div>
+		排序:<input type="text" id="sort"/>
+	</div>
+	<div>
+		备注:<input type="text" id="memo"/>
+	</div>
+	<div>
+		<input type="button" value="提交" onclick="editGood()"/>
+		<input type="button" value="取消" onclick="showEditGoodDiv(false)"/>
+	</div>
+</div>
+
+<div id="getGoodList_div" class="getGoodList_div">
+	查询商品:
+	名称:<input type="text" id="name" placeholder="请输入商品名称"/>
+	类型:<input type="text" id="goodTypeName" placeholder="请输入商品类型"/>
+	<input type="button" value="查询" onclick="getGoodList()"/>
+	<input type="button" value="添加" onclick="showAddGoodDiv(true)"/>
 	<table>
 	</table>
 </div>
