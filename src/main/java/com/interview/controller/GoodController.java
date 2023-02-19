@@ -134,7 +134,6 @@ public class GoodController {
 
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		//select gt.name,count(*) goodCount from good g,good_type gt where g.goodTypeId=gt.id GROUP BY g.goodTypeId
 		List<Map<String, Object>> gcList=goodService.getGoodCountInTypeList();
 		
 		if(gcList.size()>0) {

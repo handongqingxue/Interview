@@ -1,6 +1,7 @@
 package com.interview.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -17,4 +18,6 @@ public interface GoodMapper {
 	int edit(Good good);
 
 	int deleteByIds(List<String> idList);
+
+	List<Map<String, Object>> getGoodCountInTypeList();
 }

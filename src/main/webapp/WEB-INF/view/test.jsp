@@ -41,6 +41,7 @@ function addGoodType(){
 			if(data.message=="ok"){
 				showAddGoodTypeDiv(false);
 				getGoodTypeList();
+				getGoodCountList();
 			}
 			else
 				alert(data.info);
@@ -60,6 +61,7 @@ function editGoodType(){
 				alert(data.info);
 				showEditGoodTypeDiv(false);
 				getGoodTypeList();
+				getGoodCountList();
 			}
 			else
 				alert(data.info);
@@ -154,6 +156,7 @@ function deleteGoodTypeById(id){
 			if(data.message=="ok"){
 				alert(data.info);
 				getGoodTypeList();
+				getGoodCountList();
 			}
 			else
 				alert(data.info);
@@ -201,6 +204,7 @@ function addGood(){
 			if(data.message=="ok"){
 				showAddGoodDiv(false);
 				getGoodList();
+				getGoodCountList();
 			}
 			else
 				alert(data.info);
@@ -221,6 +225,7 @@ function editGood(){
 				alert(data.info);
 				showEditGoodDiv(false);
 				getGoodList();
+				getGoodCountList();
 			}
 			else
 				alert(data.info);
@@ -329,9 +334,39 @@ function deleteGoodById(id){
 			if(data.message=="ok"){
 				alert(data.info);
 				getGoodList();
+				getGoodCountList();
 			}
 			else
 				alert(data.info);
+		}
+	,"json");
+}
+
+function getGoodCountList(){
+	$.post(path+"good/getGoodCountList",
+		function(data){
+			if(data.message=="ok"){
+				var ggcTab=$("#getGoodCount_div table");
+				ggcTab.empty();
+				if(data.message=="ok"){
+					ggcTab.append("<tr>"
+								+"<td>类型</td>"
+								+"<td>商品数量</td>"
+							+"</tr>");
+				
+					var gcList=data.gcList;
+					var gclLength=gcList.length;
+					for (var i = 0; i < gclLength; i++) {
+						var gc=gcList[i];
+						var goodTypeName=gc.goodTypeName;
+						var goodCount=gc.goodCount;
+						ggcTab.append("<tr>"
+									+"<td>"+goodTypeName+"</td>"
+									+"<td>"+goodCount+"</td>"
+								+"</tr>");
+					}
+				}
+			}
 		}
 	,"json");
 }

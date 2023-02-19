@@ -73,4 +73,7 @@
 		#{id}
 		</foreach>
 	</delete>
+	<select id="getGoodCountInTypeList" resultType="java.util.Map">
+		select gt.name goodTypeName,count(g.goodTypeId) goodCount from good_type gt left join good g on g.goodTypeId=gt.id GROUP BY gt.id
+	</select>
 </mapper>

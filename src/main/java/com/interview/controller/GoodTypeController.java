@@ -22,6 +22,8 @@ public class GoodTypeController {
 	@RequestMapping(value="/goTest")
 	public String goTest() {
 		
+		//http://localhost:8080/Interview/goodType/goTest
+		
 		return "/test";
 	}
 

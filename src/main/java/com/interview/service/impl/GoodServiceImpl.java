@@ -47,7 +47,7 @@ public class GoodServiceImpl implements GoodService {
 
 	public List<Map<String, Object>> getGoodCountInTypeList() {
 		// TODO Auto-generated method stub
-		return null;
+		return goodDao.getGoodCountInTypeList();
 	}
 
 }
